@@ -7,15 +7,17 @@ class SystemWatch: public QObject
 {
 	Q_OBJECT
 public:
-	SystemWatch();
+	static SystemWatch* instance();
 
 signals:
 	void sleep();
 	void wakeup();
 
-private slots:
-	void sleeping();
-	void resuming();
+protected:
+	SystemWatch();
+
+private:
+	static SystemWatch* FWatchInstance;
 };
 
 #endif // SYSTEMWATCH_H

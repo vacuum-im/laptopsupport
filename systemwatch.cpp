@@ -1,21 +1,31 @@
-#include <QDBusConnection>
-
 #include "systemwatch.h"
+#if defined(Q_OS_MAC)
+	#include "systemwatchmac.h"
+#elif defined(Q_OS_WIN32)
+	#include "systemwatchwin.h"
+#else
+	#include "systemwatchunix.h"
+#endif
 
 SystemWatch::SystemWatch()
 {
-	QDBusConnection conn = QDBusConnection::systemBus();
 
-	conn.connect("org.freedesktop.UPower", "/org/freedesktop/UPower", "org.freedesktop.UPower", "Sleeping", this, SLOT(sleeping()));
-	conn.connect("org.freedesktop.UPower", "/org/freedesktop/UPower", "org.freedesktop.UPower", "Resuming", this, SLOT(resuming()));
 }
 
-void SystemWatch::sleeping()
+SystemWatch *SystemWatch::instance()
 {
-	emit sleep();
+	if (!FWatchInstance)
+	{
+#if defined(Q_OS_MAC)
+		FWatchInstance = new MacSystemWatch();
+#elif defined(Q_OS_WIN)
+		FWatchInstance = new WinSystemWatch();
+#else
+		FWatchInstance = new UnixSystemWatch();
+#endif
+	}
+
+	return FWatchInstance;
 }
 
-void SystemWatch::resuming()
-{
-	emit wakeup();
-}
+SystemWatch* SystemWatch::FWatchInstance = 0;

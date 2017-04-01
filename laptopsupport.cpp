@@ -6,7 +6,7 @@
 
 LaptopSupport::LaptopSupport()
 {
-	FSystemWatch = new SystemWatch();
+	FSystemWatch = SystemWatch::instance();
 	connect(FSystemWatch, SIGNAL(sleep), this, SLOT(onSleep));
 	connect(FSystemWatch, SIGNAL(wakeup), this, SLOT(onWeakUp));
 }
@@ -20,7 +20,7 @@ void LaptopSupport::pluginInfo(IPluginInfo *APluginInfo)
 {
 	APluginInfo->name = tr("Laptop support");
 	APluginInfo->description = tr("TODO");
-	APluginInfo->version = QLatin1String("0.0.2");
+	APluginInfo->version = QLatin1String("0.1");
 	APluginInfo->author = QLatin1String("Andrey Karepin");
 	APluginInfo->homePage = QLatin1String("http://www.vacuum-im.org");
 	APluginInfo->dependences.append(STATUSCHANGER_UUID);
