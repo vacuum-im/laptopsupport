@@ -1,0 +1,14 @@
+include(qmake/debug.inc)
+include(qmake/config.inc)
+
+#Project configuration
+TARGET              = <plugin-name>
+QT                  = core gui
+include(<plugin-name>.pri)
+
+#Default progect configuration
+include(qmake/plugin.inc)
+
+#Translation
+TRANS_SOURCE_ROOT   = .
+include(translations/languages.inc)
